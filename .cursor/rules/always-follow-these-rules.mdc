@@ -10,3 +10,5 @@ alwaysApply: true
 4. Don't throw everything in one file. If you know this will need types, create a type file or use existing. Or also as an Example:
 If we suddenly need cookies: Think about a CookieService. What i mean is: Code efficiently.
 5. Always use --legacy-peer-deps when working with nextjs.
+6. Vermeide den type "any"
+7. components/ui/ ist nicht zu verändern! Das ist für shadcnui vorbehalten!!!

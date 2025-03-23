@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { EmailTemplates } from './email-templates';
+import { EmailOptions } from '@/types/email';
 
 // Umgebungsvariablen abrufen
 const SMTP_HOST = process.env.SMTP_HOST!;
@@ -27,15 +28,6 @@ const transporter = nodemailer.createTransport({
     rejectUnauthorized: process.env.NODE_ENV === 'production',
   },
 });
-
-// Interface für E-Mail-Optionen
-export interface EmailOptions {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-  replyTo?: string;
-}
 
 // E-Mail-Service
 export class EmailService {
