@@ -69,7 +69,7 @@ export function QrCodesContent() {
           <p className="text-muted-foreground">Manage and create QR codes for your feedback forms</p>
         </div>
         <Button asChild>
-          <Link href="/qr-codes/new">
+          <Link href="/dashboard/qr-codes/new">
             <Plus className="mr-2 h-4 w-4" />
             Create QR Code
           </Link>

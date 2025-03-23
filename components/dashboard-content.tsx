@@ -27,7 +27,7 @@ export function DashboardContent() {
             </Link>
           </Button>
           <Button asChild>
-            <Link href="/qr-codes/new">
+            <Link href="/dashboard/qr-codes/new">
               <QrCode className="mr-2 h-4 w-4" />
               Neuer QR-Code
             </Link>
@@ -157,7 +157,7 @@ export function DashboardContent() {
           </CardContent>
           <CardFooter>
             <Button variant="outline" size="sm" className="w-full" asChild>
-              <Link href="/qr-codes">
+              <Link href="/dashboard/qr-codes">
                 <QrCode className="mr-2 h-4 w-4" />
                 QR-Codes verwalten
               </Link>

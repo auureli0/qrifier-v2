@@ -22,7 +22,7 @@ export function QrCodeCreator() {
     <div className="space-y-6">
       <div className="flex items-center gap-2">
         <Button variant="outline" size="icon" asChild>
-          <Link href="/qr-codes">
+          <Link href="/dashboard/qr-codes">
             <ArrowLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
           </Link>
@@ -133,7 +133,7 @@ export function QrCodeCreator() {
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" asChild>
-              <Link href="/qr-codes">Cancel</Link>
+              <Link href="/dashboard/qr-codes">Cancel</Link>
             </Button>
             <Button>Create QR Code</Button>
           </CardFooter>

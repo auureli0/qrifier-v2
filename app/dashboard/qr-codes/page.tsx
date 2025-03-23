@@ -1,11 +1,7 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
-import { QrCodesContent } from "@/components/qr-codes-content"
+import { QrCodeCreator } from "@/components/qr-code-creator"
 
-export default function QrCodesPage() {
+export default function NewQrCodePage() {
   return (
-    <DashboardLayout>
-      <QrCodesContent />
-    </DashboardLayout>
+      <QrCodeCreator />
   )
 }
-
