@@ -2,12 +2,16 @@ import nodemailer from 'nodemailer';
 import { EmailTemplates } from './email-templates';
 
 // Umgebungsvariablen abrufen
-const SMTP_HOST = process.env.SMTP_HOST || 'smtpauth.hostpoint.ch';
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
-const SMTP_USER = process.env.SMTP_USER || '';
-const SMTP_PASSWORD = process.env.SMTP_PASSWORD || '';
+const SMTP_HOST = process.env.SMTP_HOST!;
+const SMTP_PORT = parseInt(process.env.SMTP_PORT!, 10);
+const SMTP_USER = process.env.SMTP_USER!;
+const SMTP_PASSWORD = process.env.SMTP_PASSWORD!;
 const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@qrifier.com';
 const FROM_NAME = process.env.FROM_NAME || 'QRifier';
+
+if (!SMTP_HOST || !SMTP_USER || !SMTP_PASSWORD) {
+  console.error('SMTP-Konfiguration unvollständig. E-Mail-Versand deaktiviert.');
+}
 
 // Email-Transporter erstellen
 const transporter = nodemailer.createTransport({
