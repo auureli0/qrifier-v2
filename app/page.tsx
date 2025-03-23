@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SignOut from "./signout";
 import { Metadata } from "next";
+import { CookieSettings } from "@/components/cookie-consent-modal";
 
 // SEO-Metadaten
 export const metadata: Metadata = {
@@ -284,6 +285,7 @@ export default async function Home() {
               <Link href="/kontakt" className="text-sm text-muted-foreground hover:text-foreground">
                 Kontakt
               </Link>
+              <CookieSettings />
             </div>
           </div>
           <div className="mt-8 text-center text-sm text-muted-foreground">

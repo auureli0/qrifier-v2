@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { CookieConsentModal } from "@/components/cookie-consent-modal"
+import { AnalyticsConsent } from "@/app/analytics"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,6 +26,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <SidebarProvider>
             <Toaster />
+            <CookieConsentModal />
+            <AnalyticsConsent />
             {children}
           </SidebarProvider>
         </ThemeProvider>
