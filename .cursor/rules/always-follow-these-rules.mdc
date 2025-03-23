@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Always follow those rules for every response
+
+1. Always think about security. Alway assume you need to make it secure instantly.
+2. Always think about the SEO. it needs to be good and perfect.
+4. Don't throw everything in one file. If you know this will need types, create a type file or use existing. Or also as an Example:
+If we suddenly need cookies: Think about a CookieService. What i mean is: Code efficiently.
+5. Always use --legacy-peer-deps when working with nextjs.
