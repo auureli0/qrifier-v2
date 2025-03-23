@@ -1,26 +1,38 @@
-import { auth } from "@/lib/auth";
+"use client";
+
 import { signUp } from "@/server/users";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState, FormEvent } from "react";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
-export const metadata: Metadata = {
-  title: "Registrieren - QRifier",
-  description: "Erstelle ein neues QRifier-Konto und beginne mit dem Sammeln von Kundenfeedback.",
-};
+export default function SignUpPage() {
+  const [loading, setLoading] = useState(false);
 
-export default async function SignUpPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    
+    try {
+      const formData = new FormData(event.currentTarget);
+      const result = await signUp(formData);
+      
+      if (!result.success) {
+        toast.error(result.error || "Registrierung fehlgeschlagen");
+        setLoading(false);
+        return;
+      }
 
-  // Wenn der Benutzer bereits angemeldet ist, zur Startseite weiterleiten
-  if (session) {
-    redirect("/dashboard");
+      toast.success("Registrierung erfolgreich! Du kannst dich jetzt anmelden.");
+      window.location.href = "/login";
+    } catch (error) {
+      toast.error("Ein unerwarteter Fehler ist aufgetreten");
+      console.error(error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -33,7 +45,7 @@ export default async function SignUpPage() {
           </p>
         </div>
 
-        <form action={signUp} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -69,8 +81,15 @@ export default async function SignUpPage() {
               Das Passwort muss mindestens 8 Zeichen lang sein
             </p>
           </div>
-          <Button type="submit" className="w-full">
-            Registrieren
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner size={18} />
+                <span>Wird registriert...</span>
+              </>
+            ) : (
+              "Registrieren"
+            )}
           </Button>
         </form>
 

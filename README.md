@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## E-Mail-Konfiguration
+
+Die Anwendung verwendet Hostpoint SMTP für das Versenden von E-Mails. Um die E-Mail-Funktionalität zu konfigurieren, müssen die folgenden Umgebungsvariablen in der `.env.local` Datei gesetzt werden:
+
+```
+SMTP_HOST=smtpauth.hostpoint.ch
+SMTP_PORT=587
+SMTP_USER=deine-email@deine-domain.ch
+SMTP_PASSWORD=dein-passwort-hier
+FROM_EMAIL=noreply@deine-domain.ch
+FROM_NAME=QRifier
+```
+
+Die Anwendung sendet automatisch E-Mails in folgenden Fällen:
+- Willkommens-E-Mail nach erfolgreicher Registrierung
+- Passwort-Zurücksetzen-E-Mail

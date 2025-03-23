@@ -1,26 +1,38 @@
-import { auth } from "@/lib/auth";
+"use client";
+
 import { signIn } from "@/server/users";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState, FormEvent } from "react";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
-export const metadata: Metadata = {
-  title: "Login - QRifier",
-  description: "Melde dich bei deinem QRifier-Konto an.",
-};
+export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
 
-export default async function LoginPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    
+    try {
+      const formData = new FormData(event.currentTarget);
+      const result = await signIn(formData);
+      
+      if (!result.success) {
+        toast.error(result.error || "Anmeldung fehlgeschlagen");
+        setLoading(false);
+        return;
+      }
 
-  // Wenn der Benutzer bereits angemeldet ist, zur Startseite weiterleiten
-  if (session) {
-    redirect("/dashboard");
+      toast.success("Anmeldung erfolgreich");
+      window.location.href = "/dashboard";
+    } catch (error) {
+      toast.error("Ein unerwarteter Fehler ist aufgetreten");
+      console.error(error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -33,7 +45,7 @@ export default async function LoginPage() {
           </p>
         </div>
 
-        <form action={signIn} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">E-Mail</Label>
             <Input
@@ -60,8 +72,15 @@ export default async function LoginPage() {
               autoComplete="current-password"
             />
           </div>
-          <Button type="submit" className="w-full">
-            Anmelden
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner size={18} />
+                <span>Wird angemeldet...</span>
+              </>
+            ) : (
+              "Anmelden"
+            )}
           </Button>
         </form>
 
