@@ -8,14 +8,14 @@ import { useSidebar } from "@/components/sidebar-provider"
 import { Button } from "@/components/ui/button"
 
 const sidebarLinks = [
-  { name: "Dashboard", href: "/", icon: Home },
-  { name: "QR-Codes", href: "/qr-codes", icon: QrCode },
-  { name: "Feedback", href: "/feedback", icon: MessageSquare },
-  { name: "Formulare", href: "/forms", icon: FormInput },
-  { name: "Analytik", href: "/analytics", icon: BarChart3 },
-  { name: "Benachrichtigungen", href: "/notifications", icon: Bell },
-  { name: "Benutzer", href: "/users", icon: Users },
-  { name: "Einstellungen", href: "/settings", icon: Settings },
+  { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "QR-Codes", href: "/dashboard/qr-codes", icon: QrCode },
+  { name: "Feedback", href: "/dashboard/feedback", icon: MessageSquare },
+  { name: "Formulare", href: "/dashboard/forms", icon: FormInput },
+  { name: "Analytik", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Benachrichtigungen", href: "/dashboard/notifications", icon: Bell },
+  { name: "Benutzer", href: "/dashboard/users", icon: Users },
+  { name: "Einstellungen", href: "/dashboard/settings", icon: Settings },
 ]
 
 export function MainSidebar() {

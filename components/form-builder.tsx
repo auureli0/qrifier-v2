@@ -61,7 +61,7 @@ export function FormBuilder() {
     <div className="space-y-6">
       <div className="flex items-center gap-2">
         <Button variant="outline" size="icon" asChild>
-          <Link href="/forms">
+          <Link href="/dashboard/forms">
             <ArrowLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
           </Link>
@@ -197,7 +197,7 @@ export function FormBuilder() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button variant="outline" asChild>
-                <Link href="/forms">Cancel</Link>
+                <Link href="/dashboard/forms">Cancel</Link>
               </Button>
               <Button>Save Form</Button>
             </CardFooter>

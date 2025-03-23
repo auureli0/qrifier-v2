@@ -69,7 +69,7 @@ export function FormsContent() {
           <p className="text-muted-foreground">Create and manage your feedback forms</p>
         </div>
         <Button asChild>
-          <Link href="/forms/new">
+          <Link href="/dashboard/forms/new">
             <Plus className="mr-2 h-4 w-4" />
             Create Form
           </Link>
@@ -119,13 +119,13 @@ export function FormsContent() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
-                          <Link href={`/forms/${form.id}`}>
+                          <Link href={`/dashboard/forms/${form.id}`}>
                             <FormInput className="mr-2 h-4 w-4" />
                             View Form
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/forms/${form.id}/edit`}>
+                          <Link href={`/dashboard/forms/${form.id}/edit`}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Form
                           </Link>

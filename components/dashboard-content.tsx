@@ -21,7 +21,7 @@ export function DashboardContent() {
         </div>
         <div className="flex gap-2">
           <Button asChild>
-            <Link href="/forms/new">
+            <Link href="/dashboard/forms/new">
               <FormInput className="mr-2 h-4 w-4" />
               Neues Formular
             </Link>
