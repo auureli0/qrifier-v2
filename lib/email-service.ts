@@ -1,33 +1,20 @@
-import nodemailer from 'nodemailer';
-import { EmailTemplates } from './email-templates';
+import { Resend } from 'resend';
 import { EmailOptions } from '@/types/email';
+import { WelcomeEmail } from '@/components/email-templates/welcome-email';
+import { PasswordResetEmail } from '@/components/email-templates/password-reset-email';
+import * as React from 'react';
 
 // Umgebungsvariablen abrufen
-const SMTP_HOST = process.env.SMTP_HOST!;
-const SMTP_PORT = parseInt(process.env.SMTP_PORT!, 10);
-const SMTP_USER = process.env.SMTP_USER!;
-const SMTP_PASSWORD = process.env.SMTP_PASSWORD!;
+const RESEND_API_KEY = process.env.RESEND_API_KEY!;
 const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@qrifier.com';
 const FROM_NAME = process.env.FROM_NAME || 'QRifier';
 
-if (!SMTP_HOST || !SMTP_USER || !SMTP_PASSWORD) {
-  console.error('SMTP-Konfiguration unvollständig. E-Mail-Versand deaktiviert.');
+if (!RESEND_API_KEY) {
+  console.error('Resend API-Schlüssel nicht konfiguriert. E-Mail-Versand deaktiviert.');
 }
 
-// Email-Transporter erstellen
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: SMTP_PORT === 465, // true für 465, false für andere Ports
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASSWORD,
-  },
-  tls: {
-    // In Produktion auf true setzen
-    rejectUnauthorized: process.env.NODE_ENV === 'production',
-  },
-});
+// Resend-Instanz erstellen
+const resend = new Resend(RESEND_API_KEY);
 
 // E-Mail-Service
 export class EmailService {
@@ -36,16 +23,22 @@ export class EmailService {
    */
   static async sendEmail(options: EmailOptions): Promise<boolean> {
     try {
-      await transporter.sendMail({
-        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      const { data, error } = await resend.emails.send({
+        from: options.from || `${FROM_NAME} <${FROM_EMAIL}>`,
         to: options.to,
         subject: options.subject,
-        html: options.html,
-        text: options.text || '',
+        react: options.react,
         replyTo: options.replyTo || FROM_EMAIL,
+        cc: options.cc,
+        bcc: options.bcc,
       });
       
-      console.log(`E-Mail gesendet an: ${options.to}`);
+      if (error) {
+        console.error('Fehler beim Senden der E-Mail:', error);
+        return false;
+      }
+      
+      console.log(`E-Mail gesendet an: ${options.to}, ID: ${data?.id}`);
       return true;
     } catch (error) {
       console.error('Fehler beim Senden der E-Mail:', error);
@@ -57,13 +50,10 @@ export class EmailService {
    * Sendet eine Willkommens-E-Mail
    */
   static async sendWelcomeEmail(email: string, name: string): Promise<boolean> {
-    const { subject, html, text } = EmailTemplates.getWelcomeEmail(name);
-    
     return this.sendEmail({
       to: email,
-      subject,
-      html,
-      text,
+      subject: `Willkommen bei QRifier, ${name}!`,
+      react: WelcomeEmail({ name }) as React.ReactElement,
     });
   }
 
@@ -71,13 +61,10 @@ export class EmailService {
    * Sendet eine Passwort-Zurücksetzen-E-Mail
    */
   static async sendPasswordResetEmail(email: string, name: string, resetLink: string): Promise<boolean> {
-    const { subject, html, text } = EmailTemplates.getPasswordResetEmail(name, resetLink);
-    
     return this.sendEmail({
       to: email,
-      subject,
-      html,
-      text,
+      subject: 'Passwort zurücksetzen für QRifier',
+      react: PasswordResetEmail({ name, resetLink }) as React.ReactElement,
     });
   }
 } 
